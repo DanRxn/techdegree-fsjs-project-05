@@ -1,1 +1,63 @@
-/* To-do */
+@charset "UTF-8";
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+/**
+ * 1. Change the default font family in all browsers (opinionated).
+ * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */ }
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background-color: #fcfcfc;
+	margin: 50px;
+}
+
+p {
+	color: #8b9194;
+}
+
+h1 {
+	text-transform: uppercase;
+	font-size: 1.25rem;
+	letter-spacing: 0.1rem;
+	font-weight: 500;
+	color: #4a4a4a;
+	margin: 60px 0 35px 0;
+}
+
+h3 {
+	text-transform: capitalize;
+	color: #404a51;
+}
+
+.contact {
+	display: inline-block;
+	width: 410px;
+	margin: 0 35px 30px 0;
+	background-color: #ffffff;
+	border: 2px solid #dfdfdf;
+	border-radius: 8px;
+}
+
+.thumb-div {
+	float: left;
+}
+
+.thumbnail {
+	margin: 25px;
+	border-radius: 50%;
+}
+
+.contact-summary {
+	/* float: right; */
+}
