@@ -15,7 +15,7 @@ function fetchData(url) {
 }
 console.log('this worked so far... [line 16]');
 
-fetchData('https://randomuser.me/api/?results=12')
+fetchData('https://randomuser.me/api/?results=12&nat=US')
 	.then(data => console.log(data));
 
 
