@@ -25,6 +25,8 @@ body {
 p {
 	color: #8b9194;
 	margin: 8px 0 8px 0;
+	overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 h1 {
@@ -53,6 +55,7 @@ hr {
 .contact, 
 .contact-details {
 	margin: 0 35px 30px 0;
+	padding-right: 25px;
 	background-color: #ffffff;
 	border: 2px solid #dfdfdf;
 	border-radius: 8px;
@@ -61,6 +64,11 @@ hr {
 .contact {
 	display: inline-block;
 	width: 410px;
+	vertical-align: top;
+}
+
+.location {
+	text-transform: capitalize;
 }
 
 /* The Modal (background) */
