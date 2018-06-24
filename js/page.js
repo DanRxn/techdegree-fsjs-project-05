@@ -39,7 +39,6 @@
 		const location = contactObject.location;
 		const birthdate = new Date(contactObject.dob.date);
 		let html = `
-		<div class="contact-details">
 			<span class="close">&times;</span>
 			<div class="avatar-div">
 				<img src="${contactObject.picture.large}" class="avatar" height="175" width="175">
@@ -51,11 +50,10 @@
 			</div>
 			<hr>
 			<div class="additional-details">
-				<p>${contactObject.phone}</p>
+				<p>${contactObject.cell}</p>
 				<p class="address">${location.street} ${location.city}, ${location.state} ${location.city} ${location.postalcode}</p>
 				<p>Birthday: ${birthdate.toLocaleDateString("en-US")}</p>
 			</div>
-		</div>
 		`;
 		return html;
 	}
@@ -100,9 +98,16 @@
 	}
 
 	function openContactDetails() {
-		modal.innerHTML = makeDetailsHTML(employeesData[this.id], this.id)
+		contactDetails.innerHTML = makeDetailsHTML(employeesData[this.id], this.id)
 		markAsDetailsDisplayed(this.id);
 		modal.style.display = "block";
+		span = document.getElementsByClassName("close");
+		addEventListenerList(span, 'click', closeContactDetails);
+	}
+
+	function closeContactDetails() {
+		modal.style.display = "none";
+		employeesData.forEach(employee => employee.detailsDisplayed = false);
 	}
 
 	fetchData('https://randomuser.me/api/?results=12&nat=us,ie,gb,ca')
@@ -112,6 +117,9 @@
 
 	// Get the modal
 	let modal = document.getElementById('details-modal');
+
+	// Get the contact details div
+	let contactDetails = document.querySelector('.contact-details');
 	
 	// Get the button that opens the modal
 	let contacts = null; // Gets updated with contacts after data is fetched and DOM updated
@@ -124,15 +132,13 @@
 	
 	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {
-			modal.style.display = "none";
-			employeesData.forEach(employee => employee.detailsDisplayed = false);
+			closeContactDetails();
 	}
 	
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 			if (event.target == modal) {
-					modal.style.display = "none";
-					employeesData.forEach(employee => employee.detailsDisplayed = false);
+					closeContactDetails();
 			}
 	}	
 

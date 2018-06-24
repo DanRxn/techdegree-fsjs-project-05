@@ -67,6 +67,10 @@ hr {
 	vertical-align: top;
 }
 
+.contact:hover {
+	cursor: pointer;
+}
+
 .location, 
 .address {
 	text-transform: capitalize;
