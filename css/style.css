@@ -67,7 +67,8 @@ hr {
 	vertical-align: top;
 }
 
-.location {
+.location, 
+.address {
 	text-transform: capitalize;
 }
 
