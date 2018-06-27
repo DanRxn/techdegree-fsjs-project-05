@@ -96,7 +96,7 @@ hr {
 	position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);;
+  transform: translate(-50%, -50%);
 	padding: 25px;
 	width: 400px; 
 }
@@ -119,6 +119,25 @@ hr {
 	margin: 16px 0 16px 0;
 }
 
+.button {
+	color: #aaa;
+	font-size: 60px;
+	position: absolute;
+	/* height: 100%;
+	vertical-align: middle; */
+  top: 50%;
+  transform: translate(-50%, -50%);
+	padding: 150px 10px 150px 10px;
+}
+
+#previous {
+	left: 40px;
+}
+
+#next {
+	right: 0px;
+}
+
 /* The Close Button */
 .close {
 	color: #aaa;
@@ -130,7 +149,9 @@ hr {
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.button:hover,
+.button:focus  {
 	color: black;
 	text-decoration: none;
 	cursor: pointer;

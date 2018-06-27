@@ -19,9 +19,9 @@
 			.catch(error => console.log('Looks like there was a problem', error))
 	}
 	
-	function makeContactHTML(contactObject, i) {
+	function makeContactHTML(contactObject) {
 		let html =  `
-			<div id="${i}" class="contact">
+			<div id="${contactObject.id}" class="contact">
 				<div class="thumb-div">
 					<img src="${contactObject.picture.large}" class="thumbnail">
 				</div>
@@ -35,7 +35,7 @@
 		return html;
 	}
 
-	function makeDetailsHTML(contactObject, i) {
+	function makeDetailsHTML(contactObject) {
 		const location = contactObject.location;
 		const birthdate = new Date(contactObject.dob.date);
 		let html = `
@@ -51,10 +51,17 @@
 			<hr>
 			<div class="additional-details">
 				<p>${contactObject.cell}</p>
-				<p class="address">${location.street} ${location.city}, ${location.state} ${location.city} ${location.postalcode}</p>
+				<p class="address">${location.street} 
+				<br>${location.city}, ${location.state} ${location.city} ${location.postalcode}</p>
 				<p>Birthday: ${birthdate.toLocaleDateString("en-US")}</p>
 			</div>
 		`;
+		if (hasPrevious(contactObject.id)) {
+			html += `<div id="previous" class="button" display="inline-block">&#8249;</div>`;
+		}
+		if (hasNext(contactObject.id)) {
+			html += `<div id="next" class="button" display="inline-block">&#8250;</div>`;
+		}
 		return html;
 	}
 
@@ -69,15 +76,20 @@
 		return html.join('')
 	}
 
-	function addEmployeeAttributes(contactObject) {
-		contactObject.filteredFor = true;
-		contactObject.detailsDisplayed = false;
-		return contactObject;
+	function addEmployeeAttributes(contactObject, i) {
+		const extendedObject = contactObject;
+		extendedObject.filteredFor = true;
+		extendedObject.detailsDisplayed = false;
+		extendedObject.id = i;
+		return extendedObject;
 	}
 
 	function persistEmployees(results) {
-		employeesData = results.map(addEmployeeAttributes);
-		return employeesData;
+		const data = results.map((result, i) => addEmployeeAttributes(result, i));
+		employeesData = data;
+		console.log("Persisted employeesData on page load:");
+		console.log(employeesData);
+		return data;
 	}
 
 	function updateEmployeesHtml(html) {
@@ -88,7 +100,8 @@
 
 	function markAsDetailsDisplayed(id) {
 		employeesData.forEach(employee => employee.detailsDisplayed = false);
-		employeesData[id].detailsDisplayed = true;
+		const employee = employeesData[id];
+		employee.detailsDisplayed = true;
 	}
 
 	function addEventListenerList(list, event, fn) {
@@ -97,12 +110,59 @@
     }
 	}
 
+	function isDisplayed(employee) { 
+    return employee.detailsDisplayed === true;
+}
+
+	function getAdjacentContact(direction) {
+		const currentlyDisplayed = employeesData.find(isDisplayed);
+		const indexOfCurrent = employeesData.indexOf(currentlyDisplayed);
+		let indexOfNew;
+		if (direction === 'next') {
+			indexOfNew = indexOfCurrent + 1;
+		} else if (direction === 'previous') {
+			indexOfNew = indexOfCurrent - 1;
+		}
+		return indexOfNew;
+	}
+
 	function openContactDetails() {
-		contactDetails.innerHTML = makeDetailsHTML(employeesData[this.id], this.id)
-		markAsDetailsDisplayed(this.id);
+		const contactId = Number(this.id);
+		updateContactDetails(contactId);
 		modal.style.display = "block";
-		span = document.getElementsByClassName("close");
-		addEventListenerList(span, 'click', closeContactDetails);
+		closeSpan = document.querySelector(".close");
+		closeSpan.onclick = closeContactDetails;
+	}
+
+	function hasNext(id) {
+		return id < employeesData.length - 1;
+	}
+
+	function hasPrevious(id) {
+		return id > 0;
+	}
+
+	function updateContactDetails(id) {
+		employeesData.forEach(employee => employee.detailsDisplayed = false);
+		markAsDetailsDisplayed(id);
+		contactDetails.innerHTML = makeDetailsHTML(employeesData[id]);
+		previousButton = document.querySelector("#previous");
+		nextButton = document.querySelector("#next");
+		listenToButtons();
+	}
+
+	function listenToButtons() {
+		const currentlyDisplayed = employeesData.find(isDisplayed);
+		if (hasPrevious(currentlyDisplayed.id)) {
+			previousButton.addEventListener('click', () => {
+				updateContactDetails(getAdjacentContact('previous'));
+			});
+		}
+		if (hasNext(currentlyDisplayed.id)) {
+			nextButton.addEventListener('click', () => {
+				updateContactDetails(getAdjacentContact('next'));
+			});
+		}
 	}
 
 	function closeContactDetails() {
@@ -125,15 +185,17 @@
 	let contacts = null; // Gets updated with contacts after data is fetched and DOM updated
 	
 	// Get the <span> element that closes the modal
-	let span = document.getElementsByClassName("close");
+	let closeSpan;
+
+	// Get the Prev and Next buttons
+	let previousButton;
+	let nextButton;
 	
 	// When the user clicks on the contact, open the modal 
 	// Moving this to the end of the promise chain
 	
 	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
-			closeContactDetails();
-	}
+	// Moving this into the JS block that generates this HTML
 	
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
