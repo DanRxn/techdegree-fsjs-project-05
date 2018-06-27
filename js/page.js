@@ -203,7 +203,7 @@
 	// --------------------------------------
 
 		// Helper function to enable adding a listener to each element in a nodeList
-	function addEventListenerList(list, event, fn) {
+	function addNodeListEventListener(list, event, fn) {
     for (let i = 0; i < list.length; i++) {
         list[i].addEventListener(event, fn);
     }
@@ -214,7 +214,7 @@
 		employeesDiv.innerHTML = html;
 		// Then, add event listeners to HTML elements just added
 		contacts = document.querySelectorAll('.contact');
-		addEventListenerList(contacts, 'click', openContactDetails);
+		addNodeListEventListener(contacts, 'click', openContactDetails);
 	}
 
 		// Update the HTML for Details modal for the employee ID provided
