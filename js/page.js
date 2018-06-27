@@ -199,7 +199,6 @@
 		return html;
 	}
 
-
 	// Functions update page's HTML and event listeners, when app state changes
 	// --------------------------------------
 
@@ -231,9 +230,6 @@
 		listenToButtons();
 	}
 
-	
-
-	
 	// Persistent event listeners
 	// --------------------------------------
 
