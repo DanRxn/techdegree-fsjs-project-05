@@ -114,6 +114,10 @@ hr {
 	width: 400px; 
 }
 
+.username {
+	font-family: 'Courier New', Courier, monospace;
+}
+
 .thumb-div {
 	float: left;
 }

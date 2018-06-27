@@ -51,6 +51,7 @@
 			</div>
 			<div class="contact-summary">
 				<h3>${contactObject.name.first} ${contactObject.name.last}</h3>
+				<p class="username">${contactObject.login.username}</p>
 				<p>${contactObject.email}</p>
 				<p class="location">${contactObject.location.city}</p>
 			</div>
