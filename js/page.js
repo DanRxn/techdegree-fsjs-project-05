@@ -20,6 +20,7 @@
 	}
 	
 	function makeContactHTML(contactObject) {
+		if (contactObject.filteredFor) {
 		let html =  `
 			<div id="${contactObject.id}" class="contact">
 				<div class="thumb-div">
@@ -33,6 +34,11 @@
 			</div>
 		`;
 		return html;
+		}
+	}
+
+	function filteredOf(arrayOfContacts) {
+		return arrayOfContacts.filter(contact => contact.filteredFor)
 	}
 
 	function makeDetailsHTML(contactObject) {
@@ -66,6 +72,7 @@
 	}
 
 	function makeEmployeesHTML(results) {
+		updateEmployeeFilter();
 		let html = [];
 		results.forEach( (employee, i) => {
 			const employeeHtml = makeContactHTML(employee, i);
@@ -82,6 +89,32 @@
 		extendedObject.detailsDisplayed = false;
 		extendedObject.id = i;
 		return extendedObject;
+	}
+
+function checkNameSubstring(employee) {
+	const fullName = `${employee.name.first} ${employee.name.last}`
+	const query = filterInput.value;
+	return fullName.includes(query);
+}
+
+function checkUsernameSubstring(employee) {
+	const username = employee.login.username;
+	const query = filterInput.value;
+	return username.includes(query);
+}
+
+	function updateEmployeeFilter() {
+		employeesData.forEach( (employee) => {
+			if (checkNameSubstring(employee) || checkUsernameSubstring(employee)) {
+				employee.filteredFor = true;
+			} else {
+				employee.filteredFor = false;
+			}
+		});
+	}
+
+	function filterContacts() {
+		updateEmployeesHtml(makeEmployeesHTML(employeesData));
 	}
 
 	function persistEmployees(results) {
@@ -115,15 +148,15 @@
 }
 
 	function getAdjacentContact(direction) {
-		const currentlyDisplayed = employeesData.find(isDisplayed);
-		const indexOfCurrent = employeesData.indexOf(currentlyDisplayed);
-		let indexOfNew;
+		const currentlyDisplayed = filteredOf(employeesData).find(isDisplayed);
+		const filteredIndexOfCurrent = filteredOf(employeesData).indexOf(currentlyDisplayed);
+		let filteredIndexOfNew;
 		if (direction === 'next') {
-			indexOfNew = indexOfCurrent + 1;
+			filteredIndexOfNew = filteredIndexOfCurrent + 1;
 		} else if (direction === 'previous') {
-			indexOfNew = indexOfCurrent - 1;
+			filteredIndexOfNew = filteredIndexOfCurrent - 1;
 		}
-		return indexOfNew;
+		return filteredOf(employeesData)[filteredIndexOfNew].id;
 	}
 
 	function openContactDetails() {
@@ -132,12 +165,16 @@
 		modal.style.display = "block";
 	}
 
+	function getFilteredIndexOf(id) {
+		return filteredOf(employeesData).indexOf(employeesData[id]);
+	} 
+
 	function hasNext(id) {
-		return id < employeesData.length - 1;
+		return getFilteredIndexOf(id) < filteredOf(employeesData).length - 1;
 	}
 
 	function hasPrevious(id) {
-		return id > 0;
+		return getFilteredIndexOf(id) > 0;
 	}
 
 	function updateContactDetails(id) {
@@ -175,7 +212,10 @@
 		.then(results => makeEmployeesHTML(results))
 		.then(html => updateEmployeesHtml(html))
 
-	// Get the modal
+		// Get the filter/search input box
+	let filterInput = document.querySelector('input');
+	
+		// Get the modal
 	let modal = document.getElementById('details-modal');
 
 	// Get the contact details div
@@ -203,6 +243,11 @@
 					closeContactDetails();
 			}
 	}	
+
+	// When user edits search query, update the displayed contacts
+	filterInput.addEventListener('input', () => {
+		filterContacts();
+	});
 
 })();
 
