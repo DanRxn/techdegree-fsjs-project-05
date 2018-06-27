@@ -130,8 +130,6 @@
 		const contactId = Number(this.id);
 		updateContactDetails(contactId);
 		modal.style.display = "block";
-		closeSpan = document.querySelector(".close");
-		closeSpan.onclick = closeContactDetails;
 	}
 
 	function hasNext(id) {
@@ -146,6 +144,8 @@
 		employeesData.forEach(employee => employee.detailsDisplayed = false);
 		markAsDetailsDisplayed(id);
 		contactDetails.innerHTML = makeDetailsHTML(employeesData[id]);
+		closeSpan = document.querySelector(".close");
+		closeSpan.onclick = closeContactDetails;
 		previousButton = document.querySelector("#previous");
 		nextButton = document.querySelector("#next");
 		listenToButtons();
