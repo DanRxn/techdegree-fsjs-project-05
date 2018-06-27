@@ -82,6 +82,7 @@ hr {
 
 .contact:hover {
 	cursor: pointer;
+	background-color: #e6f2ff;
 }
 
 .location, 
