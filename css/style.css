@@ -35,13 +35,26 @@ h1 {
 	letter-spacing: 0.1rem;
 	font-weight: 500;
 	color: #4a4a4a;
-	margin: 60px 0 35px 0;
+	margin: 60px 0 10px 0;
 }
 
 h3 {
 	text-transform: capitalize;
 	margin: 50px 0 10px 0;
 	color: #404a51;
+}
+
+input {
+	width: 250px;
+	height: 30px;
+	border-radius: 5px;
+	margin: 25px 0;
+	padding: 5px 40px;
+	font-size: 1em;
+	background-color: white;
+	background-image: url('../img/searchicon.png');
+	background-position: 10px 10px; 
+	background-repeat: no-repeat;
 }
 
 hr {
