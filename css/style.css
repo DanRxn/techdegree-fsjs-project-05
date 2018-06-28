@@ -12,7 +12,6 @@ html {
   -webkit-text-size-adjust: 100%;
   /* 2 */ }
 
-	/* Element styles */
 
 /* Whole page */
 body {
@@ -20,6 +19,32 @@ body {
 	background-color: #fcfcfc;
 	margin: 50px;
 }
+
+#content {
+	margin: auto;
+}
+
+/* One-column layout for narrow viewport/window */
+@media only screen and (max-width: 1100px) {
+	#content {
+		max-width: 490px;
+	}
+} 
+
+/* Two-column layout for mid-sized viewport/window */
+@media only screen and (min-width: 1101px) {
+	#content {
+		max-width: 990px;
+	}
+} 
+
+/* Three-column layout for large viewport/window */
+@media only screen and (min-width: 1550px) {
+	#content {
+		max-width: 1440px;
+	}
+}
+
 
 /* Most contact details */
 p {
